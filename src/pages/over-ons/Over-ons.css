@@ -1,0 +1,16 @@
+.section{
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.section-right{
+    width: 100vw;
+}
+
+.section-left > article > p{
+    width:85%;
+}
+
+img{
+    width:100%
+}
