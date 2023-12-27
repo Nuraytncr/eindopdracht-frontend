@@ -1,0 +1,36 @@
+footer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.f-col{
+    align-self: center;
+    flex: 1 1 20%;
+}
+
+.f-col-1{
+    display:flex;
+    justify-content: center;
+
+}
+
+.f-center{
+    align-self: center;
+
+}
+.f-right{
+    align-self: center;
+
+}
+.footer-sm-icons {
+    display: flex;
+    align-items: flex-end;
+}
+.footer-sm-icons > .icon{
+    padding: 0 5px;
+    text-align: end;
+}
+.copyright{
+   text-align: center;
+    width:  100vw;
+}

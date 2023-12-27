@@ -1,0 +1,60 @@
+
+header {
+  padding-right: 0;
+  margin: auto;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5rem;
+  width: -webkit-fill-available;
+
+}
+
+li > a {
+  font-weight: 500;
+  color: black;
+  text-decoration: none; 
+}
+li > a:hover {
+  color: black;  
+}
+.active-menu-link {
+  border-bottom: 1px solid black;
+  color: black;  
+}
+
+.default-menu-link {
+  border-bottom: none;
+  color: black;  
+}
+
+
+.default-menu-link:hover {
+  border-bottom: 1px solid black;
+  color: black;
+  
+}
+
+.group-link{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow:2;
+}
+
+.group-link li{
+  display: inline-block;
+  padding: 0 1.5rem;
+}
+
+.group-link-icon > a{
+  display: inline-block;
+  padding: 0 1.5rem;
+}
+.banner{ 
+  position: relative;
+  min-height: 98vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

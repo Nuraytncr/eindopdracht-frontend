@@ -1,33 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Navigation from './components/header/navigation/Navigation';
+import Footer from './components/footer/Footer';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/home/Home';
+import Recepten from './pages/recepten/Recepten';
+import Account from './pages/account/Account';
+import Login from './pages/account/Login';
+import Logout from './pages/account/Logout';
+import Register from './pages/account/Register';
+import OverOns from './pages/over-ons/Over-ons';
+import NotFound from './pages/not_found/Not-found';
+import AuthContextProvider from './context/Auth';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <AuthContextProvider>
+      <Navigation />
+      <div className='container'>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recepten" element={<Recepten />} />
+          <Route path="/over-ons" element={<OverOns />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/registreren" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMRa
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Footer />
+      </AuthContextProvider>
     </>
   )
 }
