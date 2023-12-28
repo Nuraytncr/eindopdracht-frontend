@@ -7,7 +7,7 @@ function NotFound() {
     <>
       <h1>Sorry deze pagina is gevonden</h1>
       <p>Wellicht kun je de recepten bekijken.</p>
-      <ButtonLink to="/recepten">Naar de "over ons" pagina</ButtonLink>
+      <ButtonLink to="/recepten">Recepten bekijken</ButtonLink>
     </>
   );
 }
