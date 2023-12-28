@@ -1,0 +1,8 @@
+.form-links-group{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.link{
+    font-size: smaller;
+}
