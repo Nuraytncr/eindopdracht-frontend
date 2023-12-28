@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 import { navigateTo } from '../helpers/Navigate';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext({})
 
@@ -11,6 +12,8 @@ function AuthContextProvider({ children }) {
         user: null,
         status: 'pending'
     });
+    
+    const navigate = useNavigate();
 
     useEffect(() => {
         getUser();
@@ -61,7 +64,7 @@ function AuthContextProvider({ children }) {
                 status: 'done'
             });
         localStorage.setItem('token', userInput.accessToken);
-        navigateTo('/account');
+        navigateTo('/account', navigate);
 
     };
 
@@ -74,7 +77,7 @@ function AuthContextProvider({ children }) {
             });
 
         localStorage.removeItem('token');
-        navigateTo('/account');
+        navigateTo('/account', navigate);
     };
 
     const userData = {
