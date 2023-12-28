@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import './Account.css';
 import ButtonLink from '../../components/button/ButtonLink';
 import { AuthContext } from '../../context/Auth';
-import { Redirect } from '../../helpers/redirect';
 import Login from './Login';
 
 function Account() {
