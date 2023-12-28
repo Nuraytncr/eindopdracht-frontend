@@ -16,16 +16,16 @@ function Login() {
   const [message, setMessage] = useState(null);
   
   async function handleFormSubmit(data) {
+    setMessage('Aan het controleren.');
     try {
-      setMessage('Aan het controleren.');
       const noviURL = import.meta.env.VITE_NOVI_URL;
       const result = await axios.post(`${noviURL}/api/auth/signin`,
         {
           "username": data.username,
           "password": data.password,
         });
+        setMessage('Succesvol ingelogd. een ogenblikje, je wordt het doorgestuurd naar het accountoverzicht...');
       login(result.data);
-      setMessage('Succesvol ingelogd. een ogenblikje, je wordt het doorgestuurd naar het accountoverzicht...');
     }
     catch (e) {
       if (e.response.status === 401) {
