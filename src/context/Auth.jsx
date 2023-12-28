@@ -74,7 +74,7 @@ function AuthContextProvider({ children }) {
             });
 
         localStorage.removeItem('token');
-        navigatoTo('/account');
+        navigateTo('/account');
     };
 
     const userData = {
