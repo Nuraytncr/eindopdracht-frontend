@@ -15,9 +15,9 @@ function Register() {
   const [message, setMessage]  = useState('');
 
   async function handleFormSubmit(data) {
+    setMessage('Aan het registreren.');
 
     try{
-      setMessage('Aan het registreren.');
       const noviURL = import.meta.env.VITE_NOVI_URL;
       const result = await axios.post(`${noviURL}/api/auth/signup`,
       {
@@ -26,7 +26,6 @@ function Register() {
           password: data.password,
           role: ['user']
       });
-    
       setMessage('Succesvol geregistreerd. Je kunt nu inloggen via de onderstaande link.');
     }
     catch(e)
