@@ -1,10 +1,6 @@
-import { useNavigate } from "react-router-dom";
-
-
-export function navigateTo(link) {
-    const nav = useNavigate();
+export function navigateTo(link, navigate) {
 
     setTimeout(() => {
-        nav(link);
+        navigate(link);
     }, 1500);
 };
