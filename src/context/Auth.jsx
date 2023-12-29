@@ -1,18 +1,18 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
-import { navigateTo } from '../helpers/Navigate';
+import { navigateWithTimeOut } from '../helpers/Navigate';
 import { useNavigate } from 'react-router-dom';
 
-export const AuthContext = createContext({})
+export const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
 
     const [user, setAuth] = useState({
-        user: null,
+        username: null,
         status: 'pending'
     });
-    
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,13 +21,14 @@ function AuthContextProvider({ children }) {
 
     function isTokenValid(token) {
         const decodedToken = jwtDecode(token);
-        return decodedToken.exp > (new Date().getTime() / 1000);
+        return decodedToken?.exp > (new Date().getTime() / 1000) || false;
     }
 
     async function getUser() {
         const token = localStorage.getItem('token');
 
         if (token && isTokenValid(token)) {
+            console.log(token);
             try {
                 const noviURL = import.meta.env.VITE_NOVI_URL;
                 const result = await axios.get(`${noviURL}/api/user`,
@@ -37,34 +38,40 @@ function AuthContextProvider({ children }) {
                             "Authorization": `Bearer ${token}`
                         }
                     });
-                setAuth({
-                    user: result.data.username,
-                    status: 'done',
-                });
+                    setAuth(prevUser => ({
+                        ...prevUser,
+                        username: result.data?.username,
+                        status: 'done',
+                      }));
             } catch (e) {
+                console.log('error', e)
                 setAuth({
-                    user: null,
+                    ...user,
+                    username: null,
                     status: 'done',
                 });
             }
+            console.log(user);
+
         }
         else {
             setAuth({
-                user: null,
+                username: null,
                 status: 'done',
             });
         }
+        console.log(user)
     }
 
     function login(userInput) {
         setAuth(
             {
                 ...user,
-                user: userInput.username,
+                username: userInput.username,
                 status: 'done'
             });
         localStorage.setItem('token', userInput.accessToken);
-        navigateTo('/account', navigate);
+        navigateWithTimeOut('/account', navigate);
 
     };
 
@@ -72,12 +79,12 @@ function AuthContextProvider({ children }) {
         setAuth(
             {
                 ...user,
-                user: null,
+                username: null,
                 status: 'done'
             });
 
         localStorage.removeItem('token');
-        navigateTo('/account', navigate);
+        navigateWithTimeOut('/account', navigate);
     };
 
     const userData = {

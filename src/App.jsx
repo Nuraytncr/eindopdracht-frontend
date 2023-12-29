@@ -15,22 +15,22 @@ import './App.css'
 function App() {
   return (
     <>
-    <AuthContextProvider>
       <Navigation />
       <div className='container'>
+          <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/recepten" element={<Recepten />} />
           <Route path="/over-ons" element={<OverOns />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/registreren" element={<Register />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/registreren" element={<Register />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+          </AuthContextProvider>
       </div>
       <Footer />
-      </AuthContextProvider>
     </>
   )
 }

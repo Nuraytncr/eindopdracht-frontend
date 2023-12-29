@@ -14,7 +14,7 @@ function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { login } = useContext(AuthContext);
   const [message, setMessage] = useState(null);
-  
+
   async function handleFormSubmit(data) {
     setMessage('Aan het controleren.');
     try {
@@ -24,11 +24,11 @@ function Login() {
           "username": data.username,
           "password": data.password,
         });
-        setMessage('Succesvol ingelogd. een ogenblikje, je wordt het doorgestuurd naar het accountoverzicht...');
+      setMessage('Succesvol ingelogd. een ogenblikje, je wordt het doorgestuurd naar het accountoverzicht.');
       login(result.data);
     }
     catch (e) {
-      if (e.response.status === 401) {
+      if (e.response?.status === 401) {
         setMessage("De ingevoerde gegevens staan niet in ons systeem. Probeer het opnieuw of maak via de onderstaande link een nieuw account aan.");
       }
       else {
