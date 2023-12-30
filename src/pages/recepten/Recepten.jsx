@@ -3,11 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Recepten.css';
 import { UilHeart, UilAngleLeftB, UilAngleRightB } from '@iconscout/react-unicons'
+import axios from 'axios';
 
 function Recepten() {
   const [select, setSelect] = useState('bereidingsTijdLaag');
   const [favRecepts, setFavRecepts] = useState([]);
   const [currentPagination, setCurrentPagination] = useState(null);
+  const [recipes, setRecipes] = useState([]);
+
+  const recipesPerPagination = 4;
 
   const changeSelect = (event) => {
     //TO DO sorting
@@ -17,8 +21,18 @@ function Recepten() {
   useEffect(() => {
     const recepts = JSON.parse(localStorage.getItem('favoriteRecepts')) || [];
     setFavRecepts(recepts);
-  }, []);
+    fetchRandomRecepts();
 
+  }, []);
+  async function fetchRandomRecepts() {
+    try {
+      const edamamURL = import.meta.env.VITE_EDAMAN_URL;
+      const result = await axios.get(`${edamamURL}&random=true&q=${getRandomSearchTerm()}`);
+      setRecipes(addExtraProperties(result.data?.hits));
+    } catch (e) {
+      console.log('error', e);
+    }
+  }
   const toggleFavorite = (id) => {
     const favoriteRecepts = JSON.parse(localStorage.getItem('favoriteRecepts')) || [];
     const index = favoriteRecepts.indexOf(id);
@@ -38,9 +52,30 @@ function Recepten() {
   const includeFavList = (id) => {
     return favRecepts.includes(id) ? 'color-pink' : '';
   }
+  const addExtraProperties = (data) => {
+    console.log(recipes);
+    const modifiedRecipes = data.map(recipeMap => {
+      const difficultyLevels = ["beginner", "Gevorded", "Gemiddeld", "expert"];
+      const durations = ["30 minuten", "1 uur", "45 minuten", "2 uur"];
+
+      const randomDifficulty = difficultyLevels[Math.floor(Math.random() * difficultyLevels.length)];
+      const randomDuration = durations[Math.floor(Math.random() * durations.length)];
+
+      const modfiedRecipe = recipeMap.recipe;
+      return {
+        ...modfiedRecipe,
+        difficulty: randomDifficulty,
+        duration: randomDuration,
+      };
+    });
+    return modifiedRecipes;
+  }
+  const getRandomSearchTerm = () => {
+    const searchTerms = ["pizza", "ice cream", "bread", "waffle", "soup"];
+    return searchTerms[Math.floor(Math.random() * searchTerms.length)];
+  }
   const paginateTo = (id) => {
     setCurrentPagination(id);
-     console.log(id);
   }
   return (
     <>
@@ -55,7 +90,6 @@ function Recepten() {
           </select>
         </div>
         <div className='recept-section d-flex'>
-
           <div className='sidebar'>
             <span className='sidebar-title'>Recepten</span> <br />
             <span className='options'>Recepten</span> <br />
@@ -66,36 +100,20 @@ function Recepten() {
           </div>
           <div>
             <div className='recept d-flex j-c-space-between'>
-              <div className='card'>
-                <div className='p-relative'>
-                  <img className='card-image' src='https://placehold.co/600x400/png' />
-                  <span className={`favorite-icon ${includeFavList('dd2')}`} onClick={() => toggleFavorite('dd2')}> <UilHeart /></span>
+              {recipes.slice(0, recipesPerPagination).map((recipe) => (
+                <div key={recipe.uri} className='card'>
+                  <div className='p-relative'>
+                    <img className='card-image' src={recipe.images.LARGE?.url || recipe.image} />
+                    <span className={`favorite-icon ${includeFavList(recipe.label)}`} onClick={() => toggleFavorite(recipe.label)}> <UilHeart /></span>
+                  </div>
+                  <span className='card-title'>{recipe.label}</span><br />
+                  <span className='card-time'>{recipe.duration}</span><br />
+                  <span className='card-difficulty'>{recipe.difficulty}</span><br />
                 </div>
-                <span className='card-title'>Title</span><br />
-                <span className='card-time'>30 minuten</span><br />
-                <span className='card-difficulty'>beginner</span><br />
-              </div>
-              <div className='card'>
-                <div className='p-relative'>
-                  <img className='card-image' src='https://placehold.co/600x400/png' />
-                  <span className={`favorite-icon ${includeFavList('dd1')}`} onClick={() => toggleFavorite('dd1')}> <UilHeart /></span>
-                </div>
-                <span className='card-title'>Title</span><br />
-                <span className='card-time'>30 minuten</span><br />
-                <span className='card-difficulty'>beginner</span><br />
-              </div>
-              <div className='card'>
-                <div className='p-relative'>
-                  <img className='card-image' src='https://placehold.co/600x400/png' />
-                  <span className={`favorite-icon ${includeFavList('dd1')}`} onClick={() => toggleFavorite('dd1')}> <UilHeart /></span>
-                </div>
-                <span className='card-title'>Title</span><br />
-                <span className='card-time'>30 minuten</span><br />
-                <span className='card-difficulty'>beginner</span><br />
-              </div>
+              ))}
             </div>
             <div className='pagination'>
-              <span className={`pagination-button ${currentPagination - 1 < 1 || null ?  'disabled'  : ''} `} onClick={() => currentPagination - 1 < 1 || null ? '' : paginateTo(currentPagination - 1)}><UilAngleLeftB /></span>
+              <span className={`pagination-button ${currentPagination - 1 < 1 || null ? 'disabled' : ''} `} onClick={() => currentPagination - 1 < 1 || null ? '' : paginateTo(currentPagination - 1)}><UilAngleLeftB /></span>
               <span className='pagination-button pagination-selected' onClick={() => paginateTo(100)}>1</span>
               <span className='pagination-button' onClick={() => paginateTo(100)}>2</span>
               <span className='pagination-button' onClick={() => paginateTo(100)}>3</span>
