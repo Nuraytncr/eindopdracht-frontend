@@ -10,12 +10,12 @@ function Recepten() {
   const [favRecepts, setFavRecepts] = useState([]);
   const [currentPagination, setCurrentPagination] = useState(null);
   const [recipes, setRecipes] = useState([]);
+  const [message, setMessage] = useState(null);
 
   const recipesPerPagination = 4;
 
   const changeSelect = (event) => {
-    const val = event.target.value;
-    console.log(val);
+    const val = event?.target?.value || event;
     setSelect(val);
 
     switch (val) {
@@ -34,14 +34,12 @@ function Recepten() {
       default:
         break;
     }
-    console.log('test', recipes);
   };
 
   useEffect(() => {
     const recepts = JSON.parse(localStorage.getItem('favoriteRecepts')) || [];
     setFavRecepts(recepts);
     fetchRandomRecepts();
-
   }, []);
   async function fetchRandomRecepts() {
     try {
@@ -49,8 +47,9 @@ function Recepten() {
       const result = await axios.get(`${edamamURL}&random=true&q=${getRandomSearchTerm()}`);
       const createdRecipes = addExtraProperties(result.data?.hits);
       setRecipes(createdRecipes);
+      changeSelect('bereidingsTijdLaag');
     } catch (e) {
-      console.log('error', e);
+      setMessage('Er ging iets fout. Probeer het later opnieuw.');
     }
   }
   const toggleFavorite = (id) => {
@@ -112,7 +111,6 @@ function Recepten() {
       return '2 uur';
         break;
       default:
-        return '';
         break;
     }
   }
@@ -133,7 +131,6 @@ function Recepten() {
       return 'Expert';
         break;
       default:
-        return '';
         break;
     }
   }
@@ -142,13 +139,16 @@ function Recepten() {
       <div>
         <div className='d-flex j-c-space-between align-items'>
           <h1>Recepten</h1>
-          <select id="sort-select" className='' value={select} onChange={changeSelect}>
+          <select id="sort-select" value={select} onChange={changeSelect}>
             <option value="bereidingsTijdLaag">Bereidingstijd laag - hoog</option>
             <option value="bereidingsTijdHoog">Bereidingstijd hoog - laag</option>
             <option value="MoeilijkheidsgraadBeginner">Moeilijkheidsgraag beginner - expert</option>
             <option value="MoeilijkheidsgraadExpert">Moeilijkheidsgraag expert - beginner</option>
           </select>
         </div>
+        { message || recipes.length == 0
+            ? <p>{ message ? message : 'Recepten aan het inladen...'}</p>
+            :
         <div className='recept-section d-flex'>
           <div className='sidebar'>
             <span className='sidebar-title'>Recepten</span> <br />
@@ -185,6 +185,7 @@ function Recepten() {
             </div>
           </div>
         </div>
+}
 
       </div>
     </>
