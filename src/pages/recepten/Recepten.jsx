@@ -46,7 +46,7 @@ function Recepten() {
       const edamamURL = import.meta.env.VITE_EDAMAN_URL;
       const result = await axios.get(`${edamamURL}&random=true&q=${getRandomSearchTerm()}`);
       const createdRecipes = addExtraProperties(result.data?.hits);
-      
+
       setRecipes(createdRecipes);
       changeSelect('bereidingsTijdLaag');
     } catch (e) {
@@ -175,13 +175,13 @@ function Recepten() {
             </div>
             <div className='pagination'>
               <span className={`pagination-button ${currentPagination - 1 < 1 || null ? 'disabled' : ''} `} onClick={() => currentPagination - 1 < 1 || null ? '' : paginateTo(currentPagination - 1)}><UilAngleLeftB /></span>
-              <span className='pagination-button pagination-selected' onClick={() => paginateTo(100)}>1</span>
-              <span className='pagination-button' onClick={() => paginateTo(100)}>2</span>
-              <span className='pagination-button' onClick={() => paginateTo(100)}>3</span>
-              <span className='pagination-button' onClick={() => paginateTo(100)}>4</span>
-              <span className='pagination-button' onClick={() => paginateTo(100)}>5</span>
-              <span className='pagination-button' onClick={() => paginateTo(100)}>...</span>
-              <span className='pagination-button' onClick={() => paginateTo(100)}>100</span>
+              <span className='pagination-button pagination-selected' onClick={() => paginateTo(1)}>1</span>
+              <span className='pagination-button' onClick={() => paginateTo(2)}>2</span>
+              <span className='pagination-button' onClick={() => paginateTo(3)}>3</span>
+              <span className='pagination-button' onClick={() => paginateTo(4)}>4</span>
+              <span className='pagination-button' onClick={() => paginateTo(5)}>5</span>
+              <span className='pagination-button cursor-default'>...</span>
+              <span className='pagination-button' onClick={() => paginateTo(20)}>20</span>
               <span className='pagination-button' onClick={() => paginateTo(currentPagination + 1)}><UilAngleRightB /></span>
             </div>
           </div>
