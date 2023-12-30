@@ -14,8 +14,27 @@ function Recepten() {
   const recipesPerPagination = 4;
 
   const changeSelect = (event) => {
-    //TO DO sorting
-    setSelect(event.target.value);
+    const val = event.target.value;
+    console.log(val);
+    setSelect(val);
+
+    switch (val) {
+      case 'bereidingsTijdLaag':
+        setRecipes([...recipes].sort((a, b) => a.duration - b.duration));
+        break;
+      case 'bereidingsTijdHoog':
+        setRecipes([...recipes].sort((a, b) => b.duration - a.duration));
+        break;
+      case 'MoeilijkheidsgraadBeginner':
+        setRecipes([...recipes].sort((a, b) => a.difficulty - b.difficulty));
+        break;
+      case 'MoeilijkheidsgraadExpert':
+        setRecipes([...recipes].sort((a, b) => b.difficulty - a.difficulty ));
+        break;
+      default:
+        break;
+    }
+    console.log('test', recipes);
   };
 
   useEffect(() => {
@@ -28,7 +47,8 @@ function Recepten() {
     try {
       const edamamURL = import.meta.env.VITE_EDAMAN_URL;
       const result = await axios.get(`${edamamURL}&random=true&q=${getRandomSearchTerm()}`);
-      setRecipes(addExtraProperties(result.data?.hits));
+      const createdRecipes = addExtraProperties(result.data?.hits);
+      setRecipes(createdRecipes);
     } catch (e) {
       console.log('error', e);
     }
@@ -53,19 +73,17 @@ function Recepten() {
     return favRecepts.includes(id) ? 'color-pink' : '';
   }
   const addExtraProperties = (data) => {
-    console.log(recipes);
     const modifiedRecipes = data.map(recipeMap => {
-      const difficultyLevels = ["beginner", "Gevorded", "Gemiddeld", "expert"];
-      const durations = ["30 minuten", "1 uur", "45 minuten", "2 uur"];
+      const difficultyLevels = ["", "Gevorded", "Gemiddeld", "expert"];
+      const numberArray = [1, 2, 3, 4];
 
-      const randomDifficulty = difficultyLevels[Math.floor(Math.random() * difficultyLevels.length)];
-      const randomDuration = durations[Math.floor(Math.random() * durations.length)];
+      const randomNumber = numberArray[Math.floor(Math.random() * numberArray.length)];
 
       const modfiedRecipe = recipeMap.recipe;
       return {
         ...modfiedRecipe,
-        difficulty: randomDifficulty,
-        duration: randomDuration,
+        difficulty: randomNumber,
+        duration: randomNumber,
       };
     });
     return modifiedRecipes;
@@ -77,6 +95,48 @@ function Recepten() {
   const paginateTo = (id) => {
     setCurrentPagination(id);
   }
+  const getDurationText = (nmbr) =>
+  {
+    
+    switch (nmbr) {
+      case 1:
+       return '30 minuten';
+        break;
+      case 2:
+       return '45 minuten';
+        break;
+      case 3:
+          return '1 uur';
+        break;
+      case 4:
+      return '2 uur';
+        break;
+      default:
+        return '';
+        break;
+    }
+  }
+  const getDifficultyText = (nmbr) =>
+  {
+    
+    switch (nmbr) {
+      case 1:
+       return 'Beginner';
+        break;
+      case 2:
+       return 'Gemiddeld';
+        break;
+      case 3:
+          return 'Gevorded';
+        break;
+      case 4:
+      return 'Expert';
+        break;
+      default:
+        return '';
+        break;
+    }
+  }
   return (
     <>
       <div>
@@ -86,7 +146,7 @@ function Recepten() {
             <option value="bereidingsTijdLaag">Bereidingstijd laag - hoog</option>
             <option value="bereidingsTijdHoog">Bereidingstijd hoog - laag</option>
             <option value="MoeilijkheidsgraadBeginner">Moeilijkheidsgraag beginner - expert</option>
-            <option value="MoeilijkheidsgraadExport">Moeilijkheidsgraag expert - beginner</option>
+            <option value="MoeilijkheidsgraadExpert">Moeilijkheidsgraag expert - beginner</option>
           </select>
         </div>
         <div className='recept-section d-flex'>
@@ -107,8 +167,8 @@ function Recepten() {
                     <span className={`favorite-icon ${includeFavList(recipe.label)}`} onClick={() => toggleFavorite(recipe.label)}> <UilHeart /></span>
                   </div>
                   <span className='card-title'>{recipe.label}</span><br />
-                  <span className='card-time'>{recipe.duration}</span><br />
-                  <span className='card-difficulty'>{recipe.difficulty}</span><br />
+                  <span className='card-time'>{getDurationText(recipe.duration)}</span><br />
+                  <span className='card-difficulty'>{getDifficultyText(recipe.difficulty)}</span><br />
                 </div>
               ))}
             </div>
