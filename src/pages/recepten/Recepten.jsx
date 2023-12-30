@@ -46,6 +46,7 @@ function Recepten() {
       const edamamURL = import.meta.env.VITE_EDAMAN_URL;
       const result = await axios.get(`${edamamURL}&random=true&q=${getRandomSearchTerm()}`);
       const createdRecipes = addExtraProperties(result.data?.hits);
+      
       setRecipes(createdRecipes);
       changeSelect('bereidingsTijdLaag');
     } catch (e) {
