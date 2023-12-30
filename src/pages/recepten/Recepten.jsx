@@ -8,7 +8,9 @@ import axios from 'axios';
 function Recepten() {
   const [select, setSelect] = useState('bereidingsTijdLaag');
   const [favRecepts, setFavRecepts] = useState([]);
-  const [currentPagination, setCurrentPagination] = useState(null);
+  const [currentPagination, setCurrentPagination] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
+
   const [recipes, setRecipes] = useState([]);
   const [message, setMessage] = useState(null);
 
@@ -33,6 +35,7 @@ function Recepten() {
     try {
       const edamamURL = import.meta.env.VITE_EDAMAN_URL;
       const result = await axios.get(`${edamamURL}&random=true&q=${getRandomSearchTerm()}`);
+      setTotalPages(Math.ceil(result.data?.hits?.length / recipesPerPagination));
       const createdRecipes = addExtraProperties(result.data?.hits);
       setRecipes(createdRecipes);
     } catch (e) {
@@ -45,16 +48,16 @@ function Recepten() {
       case 'bereidingsTijdLaag':
         return recipes.sort((a, b) => b.duration - a.duration);
       case 'bereidingsTijdHoog':
-       return recipes.sort((a, b) => a.duration - b.duration);
+        return recipes.sort((a, b) => a.duration - b.duration);
       case 'MoeilijkheidsgraadBeginner':
-       return recipes.sort((a, b) => b.difficulty - a.difficulty);
+        return recipes.sort((a, b) => b.difficulty - a.difficulty);
       case 'MoeilijkheidsgraadExpert':
-       return recipes.sort((a, b) => a.difficulty - b.difficulty);
+        return recipes.sort((a, b) => a.difficulty - b.difficulty);
       default:
         break;
     }
   };
-  
+
   const toggleFavorite = (id) => {
     const favoriteRecepts = JSON.parse(localStorage.getItem('favoriteRecepts')) || [];
     const index = favoriteRecepts.indexOf(id);
@@ -124,6 +127,39 @@ function Recepten() {
         break;
     }
   }
+
+  function renderPaginationButtons() {
+    const buttons = [];
+    const pagesToShow = 5;
+    let farthestNeighbour;
+    for (let i = Math.max(1, currentPagination - 2); i <= Math.min(totalPages, currentPagination + 2); i++) {
+      
+      farthestNeighbour = i;
+      buttons.push(
+        <span
+          key={i}
+          className={`pagination-button ${i === currentPagination ? 'pagination-selected' : ''}`}
+          onClick={() => paginateTo(i)}
+        >
+          {i}
+        </span>
+      );
+    }
+    if (totalPages - farthestNeighbour > 1) {
+      buttons.push(<span key="ellipsis" className='pagination-button'>...</span>);
+      buttons.push(
+        <span
+          key={totalPages}
+          className={`pagination-button ${totalPages === currentPagination ? 'pagination-selected' : ''}`}
+          onClick={() => paginateTo(totalPages)}
+        >
+          {totalPages}
+        </span>
+      );
+    }
+
+    return buttons;
+  }
   return (
     <>
       <div>
@@ -163,16 +199,17 @@ function Recepten() {
                 ))}
               </div>
               <div className='pagination'>
-                <span className={`pagination-button ${currentPagination - 1 < 1 || null ? 'disabled' : ''} `} onClick={() => currentPagination - 1 < 1 || null ? '' : paginateTo(currentPagination - 1)}><UilAngleLeftB /></span>
-                <span className='pagination-button pagination-selected' onClick={() => paginateTo(100)}>1</span>
-                <span className='pagination-button' onClick={() => paginateTo(100)}>2</span>
-                <span className='pagination-button' onClick={() => paginateTo(100)}>3</span>
-                <span className='pagination-button' onClick={() => paginateTo(100)}>4</span>
-                <span className='pagination-button' onClick={() => paginateTo(100)}>5</span>
-                <span className='pagination-button' onClick={() => paginateTo(100)}>...</span>
-                <span className='pagination-button' onClick={() => paginateTo(100)}>100</span>
-                <span className='pagination-button' onClick={() => paginateTo(currentPagination + 1)}><UilAngleRightB /></span>
-              </div>
+                <span
+                  className={`pagination-button ${currentPagination - 1 < 1 ? 'disabled' : ''}`}
+                  onClick={() => currentPagination - 1 < 1 ? '' : paginateTo(currentPagination - 1)}>
+                  <UilAngleLeftB />
+                </span>
+                {renderPaginationButtons()}
+                <span
+                  className={`pagination-button ${currentPagination + 1 > totalPages ? 'disabled' : ''}`}
+                  onClick={() => currentPagination + 1 > totalPages ? '' : paginateTo(currentPagination + 1)}>
+                  <UilAngleRightB />
+                </span></div>
             </div>
           </div>
         }
