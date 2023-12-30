@@ -59,11 +59,9 @@ function Recepten() {
 
     if (index === -1) {
       favoriteRecepts.push(id);
-      console.log('Added to favorites:', id);
 
     } else {
       favoriteRecepts.splice(index, 1);
-      console.log('Removed from favorites:', id);
     }
     localStorage.setItem('favoriteRecepts', JSON.stringify(favoriteRecepts));
     setFavRecepts(favoriteRecepts);
