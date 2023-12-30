@@ -72,7 +72,6 @@ function Recepten() {
   }
   const addExtraProperties = (data) => {
     const modifiedRecipes = data.map(recipeMap => {
-      const difficultyLevels = ["", "Gevorded", "Gemiddeld", "expert"];
       const numberArray = [1, 2, 3, 4];
 
       const randomNumber = numberArray[Math.floor(Math.random() * numberArray.length)];
