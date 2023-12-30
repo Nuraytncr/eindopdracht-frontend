@@ -15,7 +15,7 @@ function Recepten() {
   const recipesPerPagination = 4;
 
   const changeSelect = (event) => {
-    const val = event?.target?.value || event;
+    const val = event?.target?.value;
     setSelect(val);
   };
 
@@ -26,7 +26,7 @@ function Recepten() {
   }, []);
 
   useEffect(() => {
-    sortRecipes();
+    setRecipes(getSortRecipes());
   }, [recipes, select]);
 
   async function fetchRandomRecipes() {
@@ -40,23 +40,18 @@ function Recepten() {
     }
   }
 
-  const sortRecipes = () => {
-    let sortedRecipes = [];
-
+  const getSortRecipes = () => {
     switch (select) {
       case 'bereidingsTijdLaag':
-        sortedRecipes = [...recipes].sort((a, b) => a.duration - b.duration);
-        break;
+        return recipes.sort((a, b) => b.duration - a.duration);
       case 'bereidingsTijdHoog':
-        sortedRecipes = [...recipes].sort((a, b) => b.duration - a.duration);
-        break;
+       return recipes.sort((a, b) => a.duration - b.duration);
       case 'MoeilijkheidsgraadBeginner':
-        sortedRecipes = [...recipes].sort((a, b) => a.difficulty - b.difficulty);
-        break;
+       return recipes.sort((a, b) => b.difficulty - a.difficulty);
       case 'MoeilijkheidsgraadExpert':
-        sortedRecipes = [...recipes].sort((a, b) => b.difficulty - a.difficulty);
-        break;
+       return recipes.sort((a, b) => a.difficulty - b.difficulty);
       default:
+        break;
     }
   };
   
@@ -79,7 +74,6 @@ function Recepten() {
   }
   const addExtraProperties = (data) => {
     const modifiedRecipes = data.map(recipeMap => {
-      const difficultyLevels = ["", "Gevorded", "Gemiddeld", "expert"];
       const numberArray = [1, 2, 3, 4];
 
       const randomNumber = numberArray[Math.floor(Math.random() * numberArray.length)];
@@ -105,16 +99,12 @@ function Recepten() {
     switch (nmbr) {
       case 1:
         return '30 minuten';
-        break;
       case 2:
         return '45 minuten';
-        break;
       case 3:
         return '1 uur';
-        break;
       case 4:
         return '2 uur';
-        break;
       default:
         break;
     }
@@ -124,16 +114,12 @@ function Recepten() {
     switch (nmbr) {
       case 1:
         return 'Beginner';
-        break;
       case 2:
         return 'Gemiddeld';
-        break;
       case 3:
         return 'Gevorded';
-        break;
       case 4:
         return 'Expert';
-        break;
       default:
         break;
     }
