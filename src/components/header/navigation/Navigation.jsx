@@ -32,7 +32,7 @@ function Navigation() {
             </nav>
 
             <div className='group-link-icon'>
-              <NavLink className={({ isActive }) => isActive ? 'active-menu-link' : 'default-menu-link'} to="/search"><UilSearch /></NavLink>
+              <NavLink className={({ isActive }) => isActive ? 'active-menu-link' : 'default-menu-link'} to="/zoeken"><UilSearch /></NavLink>
               <NavLink className={({ isActive }) => isActive ? 'active-menu-link' : 'default-menu-link'} to="/account"><UilUser /></NavLink>
               <NavLink className={({ isActive }) => isActive ? 'active-menu-link' : 'default-menu-link'} to="/wishlist"><UilHeart /></NavLink>
             </div>

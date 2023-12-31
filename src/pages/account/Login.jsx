@@ -43,7 +43,7 @@ function Login() {
       <MessageBox message={message} />
       <form className='display-flex flex-direction-column-center margin-auto p-20' onSubmit={handleSubmit(handleFormSubmit)}>
         <Input
-          type='username'
+          type='text'
           name='username'
           id='username-field'
           label='Gebruikersnaam'
