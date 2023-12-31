@@ -73,7 +73,7 @@ function Recipes({ displayRecipes }) {
           {displayRecipes.map((recipe, index) => (
             <div key={`${recipe.uri}_${index}`} className='card'>
               <div className='p-relative'>
-                <Link to={`detail/${getId(recipe.uri)}`} ><img className='card-image' src={recipe.images?.LARGE?.url || recipe.image} /></Link>
+                <Link to={`/recepten/detail/${getId(recipe.uri)}`} ><img className='card-image' src={recipe.images?.LARGE?.url || recipe.image} /></Link>
                 <span
                   className={`favorite-icon ${includeFavList(recipe.label)}`}
                   onClick={() => toggleFavorite(recipe.label)}
