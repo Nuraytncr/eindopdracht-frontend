@@ -10,7 +10,6 @@ function Account() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('username:', user)
     if (!user?.username) {
       navigateTo('/login', navigate);
     }
