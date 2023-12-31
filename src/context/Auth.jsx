@@ -28,7 +28,6 @@ function AuthContextProvider({ children }) {
         const token = localStorage.getItem('token');
 
         if (token && isTokenValid(token)) {
-            console.log(token);
             try {
                 const noviURL = import.meta.env.VITE_NOVI_URL;
                 const result = await axios.get(`${noviURL}/api/user`,
@@ -38,21 +37,18 @@ function AuthContextProvider({ children }) {
                             "Authorization": `Bearer ${token}`
                         }
                     });
-                    setAuth(prevUser => ({
-                        ...prevUser,
-                        username: result.data?.username,
-                        status: 'done',
-                      }));
+                setAuth(prevUser => ({
+                    ...prevUser,
+                    username: result.data?.username,
+                    status: 'done',
+                }));
             } catch (e) {
-                console.log('error', e)
                 setAuth({
                     ...user,
                     username: null,
                     status: 'done',
                 });
             }
-            console.log(user);
-
         }
         else {
             setAuth({
@@ -60,7 +56,6 @@ function AuthContextProvider({ children }) {
                 status: 'done',
             });
         }
-        console.log(user)
     }
 
     function login(userInput) {
