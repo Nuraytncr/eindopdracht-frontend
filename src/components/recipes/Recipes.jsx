@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Recipes.css';
 import { UilHeart } from '@iconscout/react-unicons';
+import { Link } from 'react-router-dom';
 
 function Recipes({ displayRecipes }) {
   const [favRecipes, setFavRecipes] = useState([]);
@@ -58,6 +59,11 @@ function Recipes({ displayRecipes }) {
     }
   };
 
+  const getId = (uri) =>
+  {
+    const splittedUri = uri.split('#');
+    return splittedUri[splittedUri.length - 1];
+  };
   return (
     <>
       {displayRecipes.length === 0 ? (
@@ -67,7 +73,7 @@ function Recipes({ displayRecipes }) {
           {displayRecipes.map((recipe, index) => (
             <div key={`${recipe.uri}_${index}`} className='card'>
               <div className='p-relative'>
-                <img className='card-image' src={recipe.images?.LARGE?.url || recipe.image} />
+                <Link to={`detail/${getId(recipe.uri)}`} ><img className='card-image' src={recipe.images?.LARGE?.url || recipe.image} /></Link>
                 <span
                   className={`favorite-icon ${includeFavList(recipe.label)}`}
                   onClick={() => toggleFavorite(recipe.label)}

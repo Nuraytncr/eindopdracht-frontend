@@ -98,11 +98,13 @@ function Recepten() {
           <div className='recept-section d-flex'>
             <div className='sidebar'>
               <span className='sidebar-title'>Recepten</span> <br />
+              {/* 
+              TO-DO: add filter options
               <span className='options'>Recepten</span> <br />
               <span className='options'>Recepten</span> <br />
               <span className='options'>Recepten</span> <br />
               <span className='options'>Recepten</span> <br />
-              <span className='options'>Recepten</span> <br />
+              <span className='options'>Recepten</span> <br /> */}
             </div>
             <div>
               <Recipes

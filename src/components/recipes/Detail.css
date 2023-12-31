@@ -1,0 +1,19 @@
+.section{
+  display:flex;
+  justify-content: space-evenly;
+}
+h2{
+  margin-top: 0;
+}
+.section-right{
+  width: 100vw;
+  padding-left: 1rem;
+}
+
+.section-left{
+  width:85%;
+}
+
+img{
+  width:100%
+}
