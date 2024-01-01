@@ -13,6 +13,7 @@ import NotFound from './pages/not_found/Not-found';
 import Search from './pages/search/Search';
 import AuthContextProvider from './context/Auth';
 import './App.css'
+import Mood from './pages/mood/Mood';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/recepten" element={<Recepten />} />
             <Route path="/recepten/detail/:id" element={<Detail />} />
+            <Route path="/flavor-mood" element={<Mood />} />
             <Route path="/over-ons" element={<OverOns />} />
             <Route path="/account" element={<Account />} />
             <Route path="/login" element={<Login />} />
