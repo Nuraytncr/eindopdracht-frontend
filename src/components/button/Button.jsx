@@ -1,9 +1,9 @@
 import React from 'react';
 import './Button.css';
 
-function Button({ label, type }) {
+function Button({ label, type, onClickCallBack }) {
     return (
-        <button type={type}>
+        <button type={type} onClick={() => onClickCallBack()}>
             {label}
         </button>
     );

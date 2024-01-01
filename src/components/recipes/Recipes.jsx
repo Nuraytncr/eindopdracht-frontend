@@ -3,7 +3,7 @@ import './Recipes.css';
 import { UilHeart } from '@iconscout/react-unicons';
 import { Link } from 'react-router-dom';
 
-function Recipes({ displayRecipes }) {
+function Recipes({ displayRecipes, receptAdditionalStyle, cardAdditionalStyle }) {
   const [favRecipes, setFavRecipes] = useState([]);
 
   useEffect(() => {
@@ -69,9 +69,9 @@ function Recipes({ displayRecipes }) {
       {displayRecipes.length === 0 ? (
         <p>'Recepten aan het inladen...</p>
       ) : (
-        <div className='recept d-flex j-c-space-between'>
+        <div className={`recept d-flex j-c-space-between ${receptAdditionalStyle}`}>
           {displayRecipes.map((recipe, index) => (
-            <div key={`${recipe.uri}_${index}`} className='card'>
+            <div key={`${recipe.uri}_${index}`} className={`card  ${cardAdditionalStyle}`}>
               <div className='p-relative'>
                 <Link to={`/recepten/detail/${getId(recipe.uri)}`} ><img className='card-image' src={recipe.images?.LARGE?.url || recipe.image} /></Link>
                 <span
@@ -81,12 +81,14 @@ function Recipes({ displayRecipes }) {
                   <UilHeart />
                 </span>
               </div>
+              <div className='card-description'>
               <span className='card-title'>{recipe.label}</span>
               <br />
               <span className='card-time'>{getDurationText(recipe.duration)}</span>
               <br />
               <span className='card-difficulty'>{getDifficultyText(recipe.difficulty)}</span>
               <br />
+              </div>
             </div>
           ))}
         </div>
@@ -94,5 +96,8 @@ function Recipes({ displayRecipes }) {
     </>
   );
 }
-
+Recipes.defaultProps = { 
+  receptAdditionalStyle: '', 
+  cardAdditionalStyle: ''
+}
 export default Recipes;

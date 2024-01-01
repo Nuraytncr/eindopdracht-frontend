@@ -95,11 +95,13 @@ function Recepten() {
         {message || recipes.length == 0
           ? <p>{message ? message : 'Recepten aan het inladen...'}</p>
           :
-          <div className='recept-section d-flex'>
+          <div className='d-flex'>
             <div className='sidebar'>
-              <span className='sidebar-title'>Recepten</span> <br />
+            {
+              //TO DO: add options to filter recipes
+            }
             </div>
-            <div>
+            <div className='recipe-section'>
               <Recipes
                 displayRecipes={displayRecipes || []}
               />

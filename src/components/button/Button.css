@@ -10,6 +10,7 @@ button {
     cursor: pointer;
     transition: border-color 0.25s;
     background-color: #ffffff;
+    width: 100%;
   }
   button:focus,
   button:focus-visible {

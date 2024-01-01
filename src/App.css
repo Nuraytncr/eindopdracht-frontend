@@ -49,6 +49,10 @@
   width: 100%;
 }
 
+.w-25vw{
+  width: 25vw;
+}
+
 .p-10 {
   padding: 10px;
 }
