@@ -1,6 +1,6 @@
 import  styles from './Input.module.css';
 
-function Input({ type, name, label, id, validationRules, register, errors, labelStyle, onChange }) {
+function Input({ type, name, label, id, validationRules, register, errors, labelStyle, onChangeCallBack }) {
   const inputRegistration = register ? register(name, validationRules) : {};
 
   return (
@@ -10,7 +10,7 @@ function Input({ type, name, label, id, validationRules, register, errors, label
           {label}
         </label>
         <input
-          onChange={onChange}
+          onChange={event => onChangeCallBack(event.target.value)}
           placeholder={label}
           type={type}
           id={id}
