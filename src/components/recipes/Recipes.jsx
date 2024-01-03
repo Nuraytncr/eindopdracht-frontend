@@ -75,8 +75,8 @@ function Recipes({ displayRecipes, receptAdditionalStyle, cardAdditionalStyle })
               <div className='p-relative'>
                 <Link to={`/recepten/detail/${getId(recipe.uri)}`} ><img className='card-image' src={recipe.images?.LARGE?.url || recipe.image} /></Link>
                 <span
-                  className={`favorite-icon ${includeFavList(recipe.label)}`}
-                  onClick={() => toggleFavorite(recipe.label)}
+                  className={`favorite-icon ${includeFavList(getId(recipe.uri))}`}
+                  onClick={() => toggleFavorite(getId(recipe.uri))}
                 >
                   <UilHeart />
                 </span>
