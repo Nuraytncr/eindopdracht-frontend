@@ -13,10 +13,10 @@ function Detail() {
 
     async function getRecipe() {
         try {
-            const edamamDetailURL = import.meta.env.VITE_EDAMAN_DETAIL_URL;
+            const edamamIDURL = import.meta.env.VITE_EDAMAN_ID_URL;
             const edamamAPIID = import.meta.env.VITE_EDAMAM_ID;
             const edamamAPIKEY = import.meta.env.VITE_EDAMAM_KEY;
-            const result = await axios.get(`${edamamDetailURL}/${(id)}/?type=public&app_id=${edamamAPIID}&app_key=${edamamAPIKEY}`);
+            const result = await axios.get(`${edamamIDURL}/${(id)}/?type=public&app_id=${edamamAPIID}&app_key=${edamamAPIKEY}`);
             setRecipe(result.data?.recipe);
         } catch (e) {
             setMessage('Er ging iets fout. Probeer het later opnieuw.');

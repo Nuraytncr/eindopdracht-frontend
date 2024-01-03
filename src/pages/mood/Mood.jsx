@@ -27,7 +27,6 @@ function Mood() {
       const refinedRecipes = addExtraProperties(result.data?.hits.slice(0, 6));
       setRecipes(refinedRecipes);
     } catch (error) {
-      console.log('Error loading recipes:', error);
       setMessage('Er ging iets fout. Probeer het later opnieuw.');
     }
   }

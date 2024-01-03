@@ -14,6 +14,7 @@ import Search from './pages/search/Search';
 import AuthContextProvider from './context/Auth';
 import './App.css'
 import Mood from './pages/mood/Mood';
+import Favorite from './pages/favorite/Favorite';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/registreren" element={<Register />} />
             <Route path="/zoeken" element={<Search />} />
+            <Route path="/favorieten" element={<Favorite />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthContextProvider>
